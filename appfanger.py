@@ -95,7 +95,7 @@ st.write("""
 **Para mayor facilidad, puede COPIAR Y PEGAR estos nombres exactos en su archivo CSV:**
 
 Temperatura seca (°C), Temperatura de bulbo humedo (°C) ,Temperatura de globo (°C), Velocidad del aire (m/s), Humedad relativa (%)
-"""
+**IMPORTANTE: Verificar que su archivo CSV sea del tipo CSV UTF-8 (delimitado por comas)."""
 )
 # 1. File uploader simple
 archivo = st.file_uploader("Sube tu archivo CSV con datos ambientales", type=["csv"], 
