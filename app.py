@@ -417,6 +417,26 @@ st.markdown("""
         -webkit-text-fill-color: #17243a !important;
     }
 
+    /* AJUSTE VISUAL: bloque lateral y flecha de los selectores */
+    body .stApp [data-testid="stSelectbox"] [data-baseweb="select"] > div > div:last-child,
+    body .stApp [data-testid="stSelectbox"] [role="combobox"] > div:last-child {
+        background: #eaf1f6 !important;
+        background-color: #eaf1f6 !important;
+        border-left: 1px solid #cbd8e2 !important;
+        border-radius: 0 7px 7px 0 !important;
+        align-self: stretch !important;
+        min-width: 44px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+    }
+
+    body .stApp [data-testid="stSelectbox"] [data-baseweb="select"] > div > div:last-child svg,
+    body .stApp [data-testid="stSelectbox"] [role="combobox"] > div:last-child svg {
+        fill: var(--tec-blue) !important;
+        color: var(--tec-blue) !important;
+    }
+
     @media (max-width: 768px) {
         .block-container {
             padding: .8rem .85rem 3rem;
@@ -1120,17 +1140,3 @@ if estado== "Discomfort":
     else: 
         st.write("No se cuenta con una metodologia para evaluar discomfort en exteriores")
         
-
-
-
-
-
-
-
-
-
-
-
-
-
-
