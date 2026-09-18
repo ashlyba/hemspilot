@@ -16,26 +16,29 @@ lista_clo = pd.read_csv("data/Aislamiento.csv")
 # Configuración inicial de la página
 st.set_page_config(
     page_title="Sistema HEMS - Evaluación de Estrés Térmico",
-    page_icon="🔥",
+    page_icon="logo.png",
     layout="wide",
     initial_sidebar_state="collapsed",
 )
+
 # Estilos visuales y adaptación a teléfonos
 st.markdown("""
 <style>
     :root {
-        --tec-blue: #003b70;
-        --tec-blue-2: #075b9c;
-        --tec-red: #e31b36;
-        --ink: #172033;
-        --muted: #5f6b7a;
-        --line: #dfe6ee;
+        --tec-blue: #003865;
+        --tec-blue-2: #075985;
+        --tec-red: #d6283f;
+        --ink: #132238;
+        --muted: #627083;
+        --line: #dce3e9;
         --surface: #ffffff;
-        --page: #f4f7fa;
+        --page: #f8f7f4;
+        --soft-blue: #eaf1f6;
+        --soft-red: #fbeaec;
     }
 
     html, body, [class*="css"] {
-        font-family: "Inter", "Segoe UI", Arial, sans-serif;
+        font-family: "Segoe UI", Arial, sans-serif;
         color: var(--ink);
     }
 
@@ -44,24 +47,26 @@ st.markdown("""
     #MainMenu, footer { visibility: hidden; }
 
     .block-container {
-        max-width: 1180px;
-        padding-top: 1.4rem;
+        max-width: 1120px;
+        padding-top: 1rem;
         padding-bottom: 4rem;
     }
 
     [data-testid="stImage"] img {
-        max-width: 360px;
+        max-width: 350px;
         width: 100%;
         height: auto;
     }
 
     .hems-hero {
-        margin: 1rem 0 1.7rem;
-        padding: 2rem 2.2rem;
-        color: white;
-        background: linear-gradient(125deg, #003b70 0%, #075b9c 68%, #087a9f 100%);
-        border-radius: 22px;
-        box-shadow: 0 16px 35px rgba(0, 59, 112, .18);
+        margin: 1.15rem 0 2rem;
+        padding: 3.1rem 3rem;
+        color: var(--ink);
+        background: linear-gradient(100deg, #ffffff 0%, #ffffff 64%, #edf3f7 100%);
+        border: 1px solid var(--line);
+        border-left: 7px solid var(--tec-red);
+        border-radius: 8px;
+        box-shadow: 0 14px 34px rgba(0, 56, 101, .09);
         position: relative;
         overflow: hidden;
     }
@@ -69,12 +74,12 @@ st.markdown("""
     .hems-hero::after {
         content: "";
         position: absolute;
-        width: 190px;
-        height: 190px;
-        right: -55px;
-        top: -80px;
+        width: 230px;
+        height: 230px;
+        right: -75px;
+        top: -95px;
         border-radius: 50%;
-        background: rgba(255,255,255,.09);
+        border: 38px solid rgba(0, 56, 101, .055);
     }
 
     .hems-kicker {
@@ -82,14 +87,15 @@ st.markdown("""
         font-weight: 800;
         letter-spacing: .12em;
         text-transform: uppercase;
-        opacity: .85;
+        color: var(--tec-red);
         margin-bottom: .45rem;
     }
 
     .hems-hero h1 {
-        color: white !important;
-        font-size: clamp(1.75rem, 4vw, 3rem) !important;
-        line-height: 1.08 !important;
+        color: var(--tec-blue) !important;
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: clamp(2rem, 4vw, 3.35rem) !important;
+        line-height: 1.05 !important;
         margin: 0 0 .7rem !important;
     }
 
@@ -98,9 +104,10 @@ st.markdown("""
         margin: 0;
         font-size: clamp(.98rem, 1.8vw, 1.12rem);
         line-height: 1.65;
-        color: rgba(255,255,255,.92);
+        color: var(--muted);
     }
 
+    h1, h2, h3 { letter-spacing: -.015em; }
     h2, h3 { color: var(--tec-blue) !important; }
     h2 { margin-top: 1.8rem !important; }
     p, li, label { line-height: 1.55; }
@@ -117,7 +124,7 @@ st.markdown("""
     }
 
     [data-testid="stAlert"] {
-        border-radius: 14px;
+        border-radius: 8px;
         border-width: 0 0 0 5px;
         padding: 1rem 1.1rem;
     }
@@ -125,16 +132,16 @@ st.markdown("""
     [data-testid="stExpander"] {
         background: var(--surface);
         border: 1px solid var(--line);
-        border-radius: 14px;
+        border-radius: 8px;
         overflow: hidden;
     }
 
     [data-testid="stMetric"] {
         background: var(--surface);
         border: 1px solid var(--line);
-        border-radius: 16px;
+        border-radius: 8px;
         padding: 1rem 1.1rem;
-        box-shadow: 0 7px 18px rgba(29, 52, 73, .06);
+        box-shadow: 0 8px 20px rgba(29, 52, 73, .055);
         min-height: 112px;
     }
 
@@ -143,7 +150,7 @@ st.markdown("""
 
     .stButton > button, [data-testid="stFileUploader"] button {
         min-height: 44px;
-        border-radius: 10px;
+        border-radius: 5px;
         border: 1px solid var(--tec-blue) !important;
         font-weight: 700;
     }
@@ -163,14 +170,14 @@ st.markdown("""
     [data-baseweb="input"] > div,
     [data-baseweb="select"] > div {
         min-height: 46px;
-        border-radius: 10px !important;
+        border-radius: 5px !important;
         background: white !important;
     }
 
     [data-testid="stFileUploaderDropzone"] {
         background: white;
         border: 1.5px dashed #8aa7bf;
-        border-radius: 14px;
+        border-radius: 8px;
     }
 
     .hems-step {
@@ -178,10 +185,10 @@ st.markdown("""
         align-items: center;
         gap: .55rem;
         margin: 1.3rem 0 .3rem;
-        padding: .45rem .8rem;
-        color: var(--tec-blue);
-        background: #e9f2f9;
-        border-radius: 999px;
+        padding: .42rem .7rem;
+        color: var(--tec-red);
+        background: transparent;
+        border-left: 3px solid var(--tec-red);
         font-size: .82rem;
         font-weight: 800;
         letter-spacing: .03em;
@@ -190,8 +197,8 @@ st.markdown("""
     .hems-note {
         padding: 1rem 1.1rem;
         border: 1px solid #d7e3ec;
-        border-left: 5px solid var(--tec-blue-2);
-        border-radius: 12px;
+        border-left: 4px solid var(--tec-blue);
+        border-radius: 7px;
         background: white;
         color: var(--muted);
     }
@@ -205,7 +212,7 @@ st.markdown("""
 
         .hems-hero {
             padding: 1.45rem 1.2rem;
-            border-radius: 17px;
+            border-radius: 7px;
             margin-top: .65rem;
         }
 
@@ -232,8 +239,8 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# Título principal
-st.image("logo.png",caption=None,width="content")
+# Encabezado principal
+st.image("logo.png", caption=None, width="content")
 st.markdown("""
 <section class="hems-hero">
     <div class="hems-kicker">Seguridad y salud ocupacional</div>
@@ -243,7 +250,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # Mensaje de bienvenida
-st.header("🌡️ Bienvenido al Sistema HEMS")
+st.header("Bienvenido al Sistema HEMS")
 st.write("""
 Complete la información solicitada a continuación para comenzar la evaluación de estrés térmico 
 en el ambiente laboral.  
@@ -252,7 +259,7 @@ Este sistema le permitirá analizar las condiciones térmicas y obtener recomend
 """)
 
 # Información sobre normas con expander
-with st.expander("📚 **Normativas y Métodos de Evaluación Utilizados**", expanded=False):
+with st.expander("Normativas y métodos de evaluación utilizados", expanded=False):
     st.write("""
     Este sistema está basado en las siguientes normativas nacionales e internacionales:
     
@@ -275,14 +282,14 @@ with st.expander("📚 **Normativas y Métodos de Evaluación Utilizados**", exp
 
 # Información sobre el prototipo
 st.info("""
-**⚠️ Importante: Esta es una versión prototipo**
+**Importante: esta es una versión prototipo**
 
 Esta herramienta se encuentra en fase de desarrollo y estamos validando su funcionamiento. 
 Agradecemos cualquier comentario o sugerencia que pueda tener para mejorar la aplicación.
 """)
 
 st.warning("""
-**🎯 Objetivo de esta prueba:**
+**Objetivo de esta prueba:**
 
 El objetivo principal de esta primera versión es evaluar:
 - Los métodos de ingreso de datos
@@ -298,13 +305,13 @@ st.markdown('<div class="hems-step">PASO 1 · INGRESO DE INFORMACIÓN</div>', un
 st.subheader("Complete los datos de la evaluación")
 
 #Definición de variables necesarias
-st.write("## 📥 Datos de entrada")
+st.write("## Datos de entrada")
 
 #Variables ambientales
 
-st.write("### 🌍 Variables ambientales")
+st.write("### Variables ambientales")
 st.write("Puede cargar un archivo CSV o ingresar los datos manualmente:")
-st.write("**📁 Columnas requeridas en el CSV:**")
+st.write("**Columnas requeridas en el CSV:**")
 st.markdown("""
 <div class="hems-note">
 <strong>Copie y pegue estos nombres exactamente en su archivo:</strong><br><br>
@@ -326,7 +333,7 @@ velocidad_aire, humedad_relativa = 0.016, 50.00
 if archivo is not None:
     try:
         df = pd.read_csv(archivo)
-        st.success("✅ Archivo cargado correctamente")
+        st.success("Archivo cargado correctamente")
         
         # Vista previa
         st.write("**Vista previa (primeras 5 filas):**")
@@ -370,42 +377,42 @@ if archivo is not None:
                 columnas_faltantes.append(columna_df)
         
         # MOSTRAR RESUMEN DETALLADO
-        st.write("### 📋 Resumen de Datos Cargados")
+        st.write("### Resumen de datos cargados")
         
         if columnas_encontradas:
-            st.write("**✅ Datos obtenidos del archivo:**")
+            st.write("**Datos obtenidos del archivo:**")
             for columna in columnas_encontradas:
                 variable = columnas_map[columna][0]
                 valor = globals()[variable]
                 st.write(f"• {columna}: **{valor:.2f}**")
         
         if columnas_vacias:
-            st.warning("**⚠️ Columnas vacías (usando valores por defecto):**")
+            st.warning("**Columnas vacías (se utilizarán valores predeterminados):**")
             for columna in columnas_vacias:
                 st.write(f"• {columna}")
         
         if columnas_faltantes:
-            st.error("**❌ Columnas faltantes (usando valores por defecto):**")
+            st.error("**Columnas faltantes (se utilizarán valores predeterminados):**")
             for columna in columnas_faltantes:
                 st.write(f"• {columna}")
         
         # Información importante para el usuario
         if columnas_vacias or columnas_faltantes:
             st.info("""
-            **💡 Información importante:**
+            **Información importante:**
             - Las columnas **vacías o faltantes** usan valores por defecto
             - Puede **corregir manualmente** cualquier valor en la siguiente sección
             """)
         
     except Exception as e:
-        st.error(f"❌ Error al procesar el archivo: {str(e)}")
-        st.info("📝 Por favor, ingrese los datos manualmente")
+        st.error(f"Error al procesar el archivo: {str(e)}")
+        st.info("Por favor, ingrese los datos manualmente")
 else:
-    st.info("📝 Modo de entrada manual - ingrese los datos a continuación")
+    st.info("Modo de entrada manual: ingrese los datos a continuación")
 
 # 3. Inputs manuales (siempre visibles)
 # INPUTS MANUALES (siempre visibles y pre-llenados)
-st.write("### ✏️ Ingreso manual de Datos Ambientales")
+st.write("### Ingreso manual de datos ambientales")
 st.write("Verifique o modifique los valores a continuación:")
 
 col1, col2 = st.columns(2)
@@ -421,8 +428,8 @@ with col2:
         
         
 #Caracteristicas de la tarea
-st.write("### 💼 Caracteristicas de la tarea")
-st.write("Indique los siguientes aspectos relacionados a las caracteristicas de la tarea")
+st.write("### Características de la tarea")
+st.write("Indique los siguientes aspectos relacionados con las características de la tarea.")
 col3,col4=st.columns(2)
 with col3:
     postura = st.selectbox("Selecciona una postura de trabajo", ["De pie", "Sentado", "Agachado"])
@@ -433,20 +440,20 @@ with col4:
     capucha = st.selectbox("¿Los trabajadores usan capucha?", ["No", "Si"])
     
     
-st.write("### 👕 Aislamiento térmico de la ropa")
+st.write("### Aislamiento térmico de la ropa")
 
 #Determinación de Cavs
-st.write("Acontinuación se le presentarán una serie de conjuntos para determinar el valor de CAVS, esto es necesario para calcular el TGBH")
-st.write("Los CAVS son un valor en grados Celsius estudiados para ciertos conjuntos predeterminados, según que conjunto se use se le suma este valor al calculo del tgbh")
+st.write("A continuación se presentan conjuntos de ropa para determinar el valor CAV, necesario para calcular el TGBH.")
+st.write("El CAV es un valor en grados Celsius establecido para conjuntos predeterminados y se suma al cálculo del TGBH según la vestimenta utilizada.")
 conjuntos_cavs= lista_cavs.iloc[:,0].tolist()
 seleccion_cavs= st.selectbox("Seleccione el conjunto que utilizan los trabajadores:",conjuntos_cavs)
 cavs=lista_cavs[lista_cavs["Conjunto"]==seleccion_cavs]["CAV"].iloc[0]
 if capucha == "Si": 
     cavs +=1
-st.write ("El valor de Cavs corresponde a:", cavs)
+st.metric("Valor de ajuste por vestimenta (CAV)", f"{cavs} °C")
 
 #Determinación de la tasa metábolica
-st.write("### 💪 Tasa metabólica")
+st.write("### Tasa metabólica")
 
 st.write("Ahora es necesario indicar el metabolismo. Seleccione una tasa metábolica que se ajuste a la labor.")
 
@@ -457,10 +464,12 @@ carga_metabolica=st.number_input("Ingrese la tasa metabólica (W/m²)", min_valu
 
 
 # Calcular e imprimir los resultados
-st.write("## 📊 Resultados de Evaluación")
+st.markdown("---")
+st.markdown('<div class="hems-step">PASO 2 · RESULTADOS</div>', unsafe_allow_html=True)
+st.write("## Resultados de la evaluación")
 #Indice de Calor
 #Llamar a la función indice de calor
-st.write("### 📈 Resultados Índice de Calor")
+st.write("### Resultados del índice de calor")
 
 heat_index,nivel,efecto,medidas_de_salud,nivel_para_medidas=indice_de_calor(temp_aire,humedad_relativa,radiacion_solar)
 
@@ -542,14 +551,14 @@ with col2:
 with col3:
     st.metric("Humedad Relativa", f"{humedad_relativa:.0f}%")
 
-st.subheader("🎯 Efectos en la Salud - " + nivel)
+st.subheader("Efectos en la salud — " + nivel)
 st.info(efecto)
 
 #Medidas de prevención y protección
-st.subheader("🛡️ Medidas de Prevención y Protección")
+st.subheader("Medidas de prevención y protección")
 if radiacion_solar == "Si":
     st.write("Según el reglamento nacional, cuando existe exposición al sol se deben tomar las medidas correspondientes al siguiente nivel excepto para el Nivel IV.")
-with st.expander(f"📋 Ver medidas de prevención para {nivel_para_medidas}", expanded=False):
+with st.expander(f"Ver medidas de prevención para {nivel_para_medidas}", expanded=False):
     st.write(f"**Medidas específicas para {nivel_para_medidas}:**")
     
     # Listar todas las medidas de la lista medidas_de_salud
@@ -558,7 +567,7 @@ with st.expander(f"📋 Ver medidas de prevención para {nivel_para_medidas}", e
 
 
 # Información adicional (opcional - manteniendo tu estructura original)
-with st.expander("📊 Información sobre los niveles"):
+with st.expander("Información sobre los niveles"):
     st.write("""
     **Nivel I (Verde)**: 80 - 90 - Precaución  
     **Nivel II (Amarillo)**: 91 - 103 - Precaución extrema  
@@ -572,7 +581,7 @@ with st.expander("📊 Información sobre los niveles"):
 
 #TGBH
 #Llamar función tgbh
-st.write("### 🌡️ Resultados TGBH")
+st.write("### Resultados TGBH")
 st.write("El TGBH es un índice que considera la temperatura del aire, la humedad, la radiación solar y la velocidad del aire para evaluar el estrés térmico en ambientes calurosos.")
 st.write("Esta diseñado para evaluar jornadas de máximo 8 horas y con mediciones de al menos una hora.")
 wbgt,tgbh_efectivo,tgbh_ref,estado=tgbh(radiacion_solar,temp_aire,temp_globo,temp_bulbo,cavs,carga_metabolica,aclimatacion)
@@ -639,54 +648,54 @@ if estado == "Estrés Térmico":
         # Llamar a la función indice de sudoración
         dle_alarma_q, dle_peligro_q, dle_alarma_d, dle_peligro_d = indice_de_sudoracion(temp_aire, temp_globo, temp_bulbo, iclo, carga_metabolica, velocidad_aire, postura, aclimatacion, conveccion)
         if dle_alarma_q == 0 and dle_peligro_q == 0 and dle_alarma_d == 0 and dle_peligro_d == 0:
-            st.error("❌ Error en el cálculo de SWreq. Cuando emax < 0 este metodo no puede ser utilizado. Por favor, revise los datos ingresados.")
+            st.error("Error en el cálculo de SWreq. Cuando emax < 0 este método no puede utilizarse. Por favor, revise los datos ingresados.")
         else:
-            st.success("✅ Cálculo de SWreq completado exitosamente.")
+            st.success("Cálculo de SWreq completado exitosamente.")
             # VISUALIZACIÓN MEJORADA - DIRECTAMENTE EN EL FLUJO
-            st.success("### 📈 Resultados SWreq - Tiempos Límite")
+            st.success("### Resultados SWreq — Tiempos límite")
 
             # Tarjetas con métricas en columnas
-            st.write("### 📋 Resumen de Límites")
+            st.write("### Resumen de límites")
             col1, col2, col3, col4 = st.columns(4)
             
             with col1:
                 st.metric(
-                    label="🟡 Alarma Acumulación",
+                    label="Alarma por acumulación",
                     value=format_time(dle_alarma_q) if dle_alarma_q != float('inf') else "Sin límite"
                 )
             
             with col2:
                 st.metric(
-                    label="🔴 Peligro Acumulación", 
+                    label="Peligro por acumulación", 
                     value=format_time(dle_peligro_q) if dle_peligro_q != float('inf') else "Sin límite"
                 )
             
             with col3:
                 st.metric(
-                    label="🟠 Alarma Deshidratación",
+                    label="Alarma por deshidratación",
                     value=format_time(dle_alarma_d) if dle_alarma_d != float('inf') else "Sin límite"
                 )
             
             with col4:
                 st.metric(
-                    label="🔴 Peligro Deshidratación",
+                    label="Peligro por deshidratación",
                     value=format_time(dle_peligro_d) if dle_peligro_d != float('inf') else "Sin límite"
                 )
             
             # Opción 3: Alertas visuales si los tiempos son críticos
-            st.write("### 🚨 Alertas de Seguridad")
+            st.write("### Alertas de seguridad")
             
             if dle_alarma_q != float('inf') and dle_alarma_q < 120:  # Menos de 2 horas
-                st.warning(f"⚠️ **Alarma por Acumulación de Calor**: Límite en {format_time(dle_alarma_q)} - Monitorear continuamente")
+                st.warning(f"**Alarma por acumulación de calor:** límite en {format_time(dle_alarma_q)}. Se requiere monitoreo continuo.")
             
             if dle_peligro_q != float('inf') and dle_peligro_q < 240:  # Menos de 4 horas  
-                st.error(f"🚨 **Peligro por Acumulación de Calor**: Límite en {format_time(dle_peligro_q)} - Tomar acciones inmediatas")
+                st.error(f"**Peligro por acumulación de calor:** límite en {format_time(dle_peligro_q)}. Se requieren acciones inmediatas.")
             
             if dle_alarma_d != float('inf') and dle_alarma_d < 120:
-                st.warning(f"💧 **Alarma por Deshidratación**: Límite en {format_time(dle_alarma_d)} - Aumentar hidratación")
+                st.warning(f"**Alarma por deshidratación:** límite en {format_time(dle_alarma_d)}. Se debe aumentar la hidratación.")
             
             if dle_peligro_d != float('inf') and dle_peligro_d < 240:
-                st.error(f"🔥 **Peligro por Deshidratación**: Límite en {format_time(dle_peligro_d)} - Hidratación urgente requerida")
+                st.error(f"**Peligro por deshidratación:** límite en {format_time(dle_peligro_d)}. Se requiere hidratación urgente.")
 
    # ISC - CÓDIGO CORREGIDO
     if iclo <0.6 and aclimatacion == "Si":
@@ -725,7 +734,7 @@ if estado == "Estrés Térmico":
             # VERSIÓN CORREGIDA
             # ---------------------------
 
-            st.title("🔥 Índice de Sobrecarga Calórica (ISC)")
+            st.title("Índice de Sobrecarga Calórica (ISC)")
 
             # Tarjeta principal con el valor del ISC - SIN DELTA
             col1, col2 = st.columns([1, 2])
@@ -747,49 +756,49 @@ if estado == "Estrés Térmico":
                 
                 if isc <= 100:
                     # Para valores normales, usar un texto simple
-                    st.info(f"🟢 **{isc:.1f}% / 100%** - Dentro del límite seguro")
+                    st.info(f"**{isc:.1f}% / 100%** — Dentro del límite seguro")
                 else:
                     # Para valores críticos, mostrar claramente el exceso
-                    st.error(f"🔴 **100% + {isc-100:.1f}% EXCEDIDO** - CONDICIÓN CRÍTICA")
+                    st.error(f"**100% + {isc-100:.1f}% excedido** — Condición crítica")
                     
 
             # Línea separadora
             st.markdown("---")
 
             # CLASIFICACIÓN Y ALERTA PRINCIPAL
-            st.subheader("📊 Clasificación y Estado")
+            st.subheader("Clasificación y estado")
 
             if nivel_actual == "Confort":
-                st.success(f"## ✅ {clasificacion_isc}")
+                st.success(f"## {clasificacion_isc}")
                 st.info("**Estado:** Confort térmico - Condiciones normales de trabajo")
                 
             elif nivel_actual == "Suave":
-                st.info(f"## ℹ️ {clasificacion_isc}")
+                st.info(f"## {clasificacion_isc}")
                 st.info("**Recomendación:** Monitoreo preventivo recomendado")
                 
             elif nivel_actual == "Alarma":
-                st.warning(f"## ⚠️ {clasificacion_isc}")
+                st.warning(f"## {clasificacion_isc}")
                 st.warning("**Alerta:** Inicio de zona de alarma - Implementar controles básicos")
                 
             elif nivel_actual == "Severa":
-                st.warning(f"## 🚨 {clasificacion_isc}")
+                st.warning(f"## {clasificacion_isc}")
                 st.warning("**Alerta:** Controles activos requeridos - Monitoreo continuo")
                 
             elif nivel_actual == "Muy Severa":
-                st.error(f"## 🔴 {clasificacion_isc}")
+                st.error(f"## {clasificacion_isc}")
                 st.error("**Alerta:** Límite máximo permisible - Precaución extrema")
                 
             else:  # Crítica
-                st.error(f"## 🚨 {clasificacion_isc}")
+                st.error(f"## {clasificacion_isc}")
                 st.error("**ALERTA CRÍTICA:** Condiciones peligrosas - Intervención inmediata")
 
             # INFORMACIÓN DE TIEMPO DE EXPOSICIÓN
             st.markdown("---")
-            st.subheader("⏱️ Tiempo de Exposición")
+            st.subheader("Tiempo de exposición")
 
             if isc <= 100:
                 st.success("""
-                ### ✅ No se requiere limitar el tiempo de exposición
+                ### No se requiere limitar el tiempo de exposición
                 
                 **Explicación:** El cuerpo puede disipar el calor acumulado manteniéndose 
                 dentro de los límites fisiológicos seguros (ISC ≤ 100%).
@@ -805,7 +814,7 @@ if estado == "Estrés Térmico":
                         tiempo_formateado = f"{minutos} min"
                     
                     st.error(f"""
-                    ### 🚨 TIEMPO LÍMITE DE EXPOSICIÓN: {tiempo_formateado}
+                    ### TIEMPO LÍMITE DE EXPOSICIÓN: {tiempo_formateado}
                     
                     **Advertencia Crítica:** ISC del {isc:.1f}% supera el límite seguro del 100%.
                     El cuerpo está acumulando calor activamente.
@@ -826,7 +835,7 @@ if estado == "Estrés Térmico":
                         
                 else:
                     st.error("""
-                    ### ⚠️ CONDICIÓN EXTREMADAMENTE PELIGROSA
+                    ### CONDICIÓN EXTREMADAMENTE PELIGROSA
                     
                     **Advertencia:** El cálculo indica condiciones críticas donde no se puede 
                     determinar un tiempo seguro de exposición.
@@ -835,16 +844,16 @@ if estado == "Estrés Térmico":
                     """)
 
             # LEYENDA DE NIVELES (opcional)
-            with st.expander("📋 Ver escala de niveles ISC"):
+            with st.expander("Ver escala de niveles ISC"):
                 st.write("""
                 **Escala del Índice de Sobrecarga Calórica:**
                 
-                - 🟢 **Confort (0-10%):** Condiciones normales
-                - 🔵 **Suave (10-30%):** Monitoreo preventivo  
-                - 🟠 **Alarma (30-40%):** Inicio de controles
-                - 🟠 **Severa (40-79%):** Controles activos
-                - 🔴 **Muy Severa (80-100%):** Límite máximo
-                - 💀 **Crítica (>100%):** Intervención inmediata
+                - **Confort (0-10%):** Condiciones normales
+                - **Suave (10-30%):** Monitoreo preventivo  
+                - **Alarma (30-40%):** Inicio de controles
+                - **Severa (40-79%):** Controles activos
+                - **Muy Severa (80-100%):** Límite máximo
+                - **Crítica (>100%):** Intervención inmediata
                 """)
     
 if estado== "Discomfort":
@@ -856,7 +865,6 @@ if estado== "Discomfort":
     else: 
         st.write("No se cuenta con una metodologia para evaluar discomfort en exteriores")
         
-
 
 
 
