@@ -71,24 +71,6 @@ st.markdown("""
         padding-bottom: 3rem;
     }
 
-    [data-testid="stImage"] img,
-    [data-testid="stImageContainer"] img,
-    .stImage img {
-        max-width: 220px !important;
-        width: 220px !important;
-        height: auto;
-        object-fit: contain;
-        image-rendering: auto;
-    }
-
-    [data-testid="stImage"] {
-        display: inline-block;
-        width: fit-content;
-        max-width: 100%;
-        padding: .35rem 0;
-        background: transparent;
-    }
-
     .hems-hero {
         margin: .75rem 0 1.5rem;
         padding: 2rem 2.1rem;
@@ -409,16 +391,35 @@ st.markdown("""
         -webkit-text-fill-color: var(--ink) !important;
     }
 
+    /* AJUSTE VISUAL: fondo claro para todos los selectores de entrada */
+    body .stApp [data-testid="stSelectbox"] [data-baseweb="select"],
+    body .stApp [data-testid="stSelectbox"] [data-baseweb="select"] > div,
+    body .stApp [data-testid="stSelectbox"] [role="combobox"] {
+        background-color: #ffffff !important;
+        color: #17243a !important;
+        -webkit-text-fill-color: #17243a !important;
+        border-color: #b8c5d0 !important;
+    }
+
+    body .stApp [data-testid="stSelectbox"] [role="combobox"]:hover {
+        border-color: var(--tec-blue) !important;
+    }
+
+    body .stApp [data-testid="stSelectbox"] [role="combobox"]:focus,
+    body .stApp [data-testid="stSelectbox"] [role="combobox"]:focus-within {
+        border-color: var(--thermal-orange) !important;
+        box-shadow: 0 0 0 1px var(--thermal-orange) !important;
+    }
+
+    body .stApp [data-testid="stSelectbox"] [role="combobox"] *,
+    body .stApp [data-testid="stSelectbox"] [data-baseweb="select"] * {
+        color: #17243a !important;
+        -webkit-text-fill-color: #17243a !important;
+    }
+
     @media (max-width: 768px) {
         .block-container {
             padding: .8rem .85rem 3rem;
-        }
-
-        [data-testid="stImage"] img,
-        [data-testid="stImageContainer"] img,
-        .stImage img {
-            width: 190px !important;
-            max-width: 65vw !important;
         }
 
         .hems-hero {
