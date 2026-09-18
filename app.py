@@ -17,13 +17,230 @@ lista_clo = pd.read_csv("data/Aislamiento.csv")
 st.set_page_config(
     page_title="Sistema HEMS - Evaluación de Estrés Térmico",
     page_icon="🔥",
-    layout="centered", 
+    layout="wide",
+    initial_sidebar_state="collapsed",
 )
+# Estilos visuales y adaptación a teléfonos
+st.markdown("""
+<style>
+    :root {
+        --tec-blue: #003b70;
+        --tec-blue-2: #075b9c;
+        --tec-red: #e31b36;
+        --ink: #172033;
+        --muted: #5f6b7a;
+        --line: #dfe6ee;
+        --surface: #ffffff;
+        --page: #f4f7fa;
+    }
+
+    html, body, [class*="css"] {
+        font-family: "Inter", "Segoe UI", Arial, sans-serif;
+        color: var(--ink);
+    }
+
+    .stApp { background: var(--page); }
+    [data-testid="stHeader"] { background: transparent; }
+    #MainMenu, footer { visibility: hidden; }
+
+    .block-container {
+        max-width: 1180px;
+        padding-top: 1.4rem;
+        padding-bottom: 4rem;
+    }
+
+    [data-testid="stImage"] img {
+        max-width: 360px;
+        width: 100%;
+        height: auto;
+    }
+
+    .hems-hero {
+        margin: 1rem 0 1.7rem;
+        padding: 2rem 2.2rem;
+        color: white;
+        background: linear-gradient(125deg, #003b70 0%, #075b9c 68%, #087a9f 100%);
+        border-radius: 22px;
+        box-shadow: 0 16px 35px rgba(0, 59, 112, .18);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .hems-hero::after {
+        content: "";
+        position: absolute;
+        width: 190px;
+        height: 190px;
+        right: -55px;
+        top: -80px;
+        border-radius: 50%;
+        background: rgba(255,255,255,.09);
+    }
+
+    .hems-kicker {
+        font-size: .82rem;
+        font-weight: 800;
+        letter-spacing: .12em;
+        text-transform: uppercase;
+        opacity: .85;
+        margin-bottom: .45rem;
+    }
+
+    .hems-hero h1 {
+        color: white !important;
+        font-size: clamp(1.75rem, 4vw, 3rem) !important;
+        line-height: 1.08 !important;
+        margin: 0 0 .7rem !important;
+    }
+
+    .hems-hero p {
+        max-width: 760px;
+        margin: 0;
+        font-size: clamp(.98rem, 1.8vw, 1.12rem);
+        line-height: 1.65;
+        color: rgba(255,255,255,.92);
+    }
+
+    h2, h3 { color: var(--tec-blue) !important; }
+    h2 { margin-top: 1.8rem !important; }
+    p, li, label { line-height: 1.55; }
+
+    hr {
+        margin: 2rem 0 !important;
+        border-color: var(--line) !important;
+    }
+
+    [data-testid="stVerticalBlockBorderWrapper"] {
+        border-color: var(--line) !important;
+        border-radius: 16px !important;
+        background: var(--surface);
+    }
+
+    [data-testid="stAlert"] {
+        border-radius: 14px;
+        border-width: 0 0 0 5px;
+        padding: 1rem 1.1rem;
+    }
+
+    [data-testid="stExpander"] {
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        overflow: hidden;
+    }
+
+    [data-testid="stMetric"] {
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        padding: 1rem 1.1rem;
+        box-shadow: 0 7px 18px rgba(29, 52, 73, .06);
+        min-height: 112px;
+    }
+
+    [data-testid="stMetricLabel"] { color: var(--muted); }
+    [data-testid="stMetricValue"] { color: var(--tec-blue); }
+
+    .stButton > button, [data-testid="stFileUploader"] button {
+        min-height: 44px;
+        border-radius: 10px;
+        border: 1px solid var(--tec-blue) !important;
+        font-weight: 700;
+    }
+
+    .stButton > button {
+        background: var(--tec-blue);
+        color: white;
+        width: 100%;
+    }
+
+    .stButton > button:hover {
+        background: var(--tec-blue-2);
+        color: white;
+        border-color: var(--tec-blue-2) !important;
+    }
+
+    [data-baseweb="input"] > div,
+    [data-baseweb="select"] > div {
+        min-height: 46px;
+        border-radius: 10px !important;
+        background: white !important;
+    }
+
+    [data-testid="stFileUploaderDropzone"] {
+        background: white;
+        border: 1.5px dashed #8aa7bf;
+        border-radius: 14px;
+    }
+
+    .hems-step {
+        display: inline-flex;
+        align-items: center;
+        gap: .55rem;
+        margin: 1.3rem 0 .3rem;
+        padding: .45rem .8rem;
+        color: var(--tec-blue);
+        background: #e9f2f9;
+        border-radius: 999px;
+        font-size: .82rem;
+        font-weight: 800;
+        letter-spacing: .03em;
+    }
+
+    .hems-note {
+        padding: 1rem 1.1rem;
+        border: 1px solid #d7e3ec;
+        border-left: 5px solid var(--tec-blue-2);
+        border-radius: 12px;
+        background: white;
+        color: var(--muted);
+    }
+
+    @media (max-width: 768px) {
+        .block-container {
+            padding: .8rem .85rem 3rem;
+        }
+
+        [data-testid="stImage"] img { max-width: 270px; }
+
+        .hems-hero {
+            padding: 1.45rem 1.2rem;
+            border-radius: 17px;
+            margin-top: .65rem;
+        }
+
+        .hems-hero h1 { font-size: 1.72rem !important; }
+        .hems-hero p { font-size: .96rem; }
+
+        h2 { font-size: 1.45rem !important; }
+        h3 { font-size: 1.18rem !important; }
+
+        [data-testid="stHorizontalBlock"] {
+            flex-wrap: wrap;
+            gap: .65rem;
+        }
+
+        [data-testid="column"] {
+            min-width: 100% !important;
+            width: 100% !important;
+            flex: 1 1 100% !important;
+        }
+
+        [data-testid="stMetric"] { min-height: auto; }
+        [data-testid="stDataFrame"] { overflow-x: auto; }
+    }
+</style>
+""", unsafe_allow_html=True)
 
 # Título principal
 st.image("logo.png",caption=None,width="content")
-st.title("🔥 Sistema HEMS - Evaluación de Estrés Térmico")
-st.markdown("---")
+st.markdown("""
+<section class="hems-hero">
+    <div class="hems-kicker">Seguridad y salud ocupacional</div>
+    <h1>Evaluación de estrés térmico</h1>
+    <p>Sistema HEMS para analizar las condiciones térmicas del ambiente laboral y orientar medidas de prevención para proteger la salud de las personas trabajadoras.</p>
+</section>
+""", unsafe_allow_html=True)
 
 # Mensaje de bienvenida
 st.header("🌡️ Bienvenido al Sistema HEMS")
@@ -77,7 +294,8 @@ toma de decisiones críticas en esta etapa de desarrollo.
 """)
 
 st.markdown("---")
-st.subheader("Comience completando los datos a continuación 👇")
+st.markdown('<div class="hems-step">PASO 1 · INGRESO DE INFORMACIÓN</div>', unsafe_allow_html=True)
+st.subheader("Complete los datos de la evaluación")
 
 #Definición de variables necesarias
 st.write("## 📥 Datos de entrada")
@@ -87,12 +305,12 @@ st.write("## 📥 Datos de entrada")
 st.write("### 🌍 Variables ambientales")
 st.write("Puede cargar un archivo CSV o ingresar los datos manualmente:")
 st.write("**📁 Columnas requeridas en el CSV:**")
-st.write("""
-**Para mayor facilidad, puede COPIAR Y PEGAR estos nombres exactos en su archivo CSV:**
-
-Temperatura seca (°C), Temperatura de bulbo humedo (°C) ,Temperatura de globo (°C), Velocidad del aire (m/s), Humedad relativa (%)
-"""
-)
+st.markdown("""
+<div class="hems-note">
+<strong>Copie y pegue estos nombres exactamente en su archivo:</strong><br><br>
+Temperatura seca (°C) · Temperatura de bulbo humedo (°C) · Temperatura de globo (°C) · Velocidad del aire (m/s) · Humedad relativa (%)
+</div>
+""", unsafe_allow_html=True)
 # 1. File uploader simple
 archivo = st.file_uploader("Sube tu archivo CSV con datos ambientales", type=["csv"], 
                           help="El archivo debe contener columnas: 'Temperatura seca', 'Temperatura de globo', 'etc' ")
