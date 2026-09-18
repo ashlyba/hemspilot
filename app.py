@@ -42,7 +42,26 @@ st.markdown("""
         color: var(--ink);
     }
 
-    .stApp { background: var(--page); }
+    .stApp {
+        background: var(--page);
+        color: var(--ink);
+    }
+
+    /* Fuerza texto oscuro aunque Streamlit tenga activo el tema oscuro */
+    .stApp p,
+    .stApp li,
+    .stApp label,
+    .stApp .stMarkdown,
+    .stApp [data-testid="stMarkdownContainer"],
+    .stApp [data-testid="stMarkdownContainer"] p,
+    .stApp [data-testid="stMarkdownContainer"] li {
+        color: var(--ink) !important;
+    }
+
+    .stApp small,
+    .stApp [data-testid="stCaptionContainer"] {
+        color: var(--muted) !important;
+    }
     [data-testid="stHeader"] { background: transparent; }
     #MainMenu, footer { visibility: hidden; }
 
@@ -56,6 +75,14 @@ st.markdown("""
         max-width: 350px;
         width: 100%;
         height: auto;
+    }
+
+    [data-testid="stImage"] {
+        display: inline-block;
+        width: fit-content;
+        max-width: 100%;
+        padding: .35rem 0;
+        background: transparent;
     }
 
     .hems-hero {
@@ -129,11 +156,29 @@ st.markdown("""
         padding: 1rem 1.1rem;
     }
 
+    .stApp [data-testid="stAlert"] p,
+    .stApp [data-testid="stAlert"] li,
+    .stApp [data-testid="stAlert"] strong,
+    .stApp [data-testid="stAlert"] div,
+    .stApp [data-testid="stAlert"] h1,
+    .stApp [data-testid="stAlert"] h2,
+    .stApp [data-testid="stAlert"] h3 {
+        color: #18324a !important;
+    }
+
     [data-testid="stExpander"] {
         background: var(--surface);
         border: 1px solid var(--line);
         border-radius: 8px;
         overflow: hidden;
+    }
+
+    .stApp [data-testid="stExpander"] summary,
+    .stApp [data-testid="stExpander"] summary p,
+    .stApp [data-testid="stExpander"] details,
+    .stApp [data-testid="stExpander"] svg {
+        color: var(--ink) !important;
+        fill: var(--ink) !important;
     }
 
     [data-testid="stMetric"] {
@@ -147,6 +192,11 @@ st.markdown("""
 
     [data-testid="stMetricLabel"] { color: var(--muted); }
     [data-testid="stMetricValue"] { color: var(--tec-blue); }
+
+    [data-testid="stMetricLabel"] p,
+    [data-testid="stMetricValue"] {
+        color: var(--tec-blue) !important;
+    }
 
     .stButton > button, [data-testid="stFileUploader"] button {
         min-height: 44px;
@@ -174,10 +224,93 @@ st.markdown("""
         background: white !important;
     }
 
+    [data-baseweb="input"] input,
+    [data-baseweb="select"] input,
+    [data-baseweb="select"] span,
+    [data-baseweb="select"] div {
+        color: var(--ink) !important;
+    }
+
+    /* Etiquetas de todos los controles */
+    [data-testid="stWidgetLabel"],
+    [data-testid="stWidgetLabel"] p,
+    [data-testid="stWidgetLabel"] span,
+    [data-testid="stNumberInput"] label p,
+    [data-testid="stSelectbox"] label p,
+    [data-testid="stFileUploader"] label p {
+        color: var(--ink) !important;
+        opacity: 1 !important;
+    }
+
+    /* Campos numéricos en modo claro */
+    [data-testid="stNumberInput"] div[data-baseweb="input"],
+    [data-testid="stNumberInput"] div[data-baseweb="input"] > div,
+    [data-testid="stNumberInput"] input {
+        background-color: #ffffff !important;
+        color: var(--ink) !important;
+    }
+
+    [data-testid="stNumberInput"] div[data-baseweb="input"] {
+        border: 1px solid #b8c5d0 !important;
+        border-radius: 6px !important;
+        overflow: hidden;
+    }
+
+    [data-testid="stNumberInput"] button {
+        background: var(--soft-blue) !important;
+        color: var(--tec-blue) !important;
+        border: 0 !important;
+    }
+
+    [data-testid="stNumberInput"] button:hover {
+        background: #d9e7f0 !important;
+    }
+
+    [data-testid="stNumberInput"] button svg {
+        fill: var(--tec-blue) !important;
+        color: var(--tec-blue) !important;
+    }
+
+    /* Menús de selección en modo claro */
+    [data-testid="stSelectbox"] div[data-baseweb="select"] > div,
+    [data-testid="stSelectbox"] div[data-baseweb="select"] > div > div,
+    [data-testid="stSelectbox"] div[data-baseweb="select"] span {
+        background-color: #ffffff !important;
+        color: var(--ink) !important;
+    }
+
+    [data-testid="stSelectbox"] div[data-baseweb="select"] > div {
+        border-color: #b8c5d0 !important;
+    }
+
+    [data-testid="stSelectbox"] svg {
+        fill: var(--tec-blue) !important;
+        color: var(--tec-blue) !important;
+    }
+
+    /* Menú desplegado de los selectores */
+    [role="listbox"],
+    [role="option"] {
+        background-color: #ffffff !important;
+        color: var(--ink) !important;
+    }
+
+    [role="option"]:hover,
+    [aria-selected="true"][role="option"] {
+        background-color: var(--soft-blue) !important;
+        color: var(--tec-blue) !important;
+    }
+
     [data-testid="stFileUploaderDropzone"] {
         background: white;
         border: 1.5px dashed #8aa7bf;
         border-radius: 8px;
+    }
+
+    [data-testid="stFileUploaderDropzone"] span,
+    [data-testid="stFileUploaderDropzone"] small,
+    [data-testid="stFileUploaderDropzone"] div {
+        color: var(--ink) !important;
     }
 
     .hems-step {
@@ -201,6 +334,25 @@ st.markdown("""
         border-radius: 7px;
         background: white;
         color: var(--muted);
+    }
+
+    .stApp .hems-note,
+    .stApp .hems-note strong,
+    .stApp .hems-note p {
+        color: var(--ink) !important;
+    }
+
+    /* Contraste del encabezado principal sobre fondo claro */
+    .stApp .hems-hero p { color: var(--muted) !important; }
+    .stApp .hems-hero h1 { color: var(--tec-blue) !important; }
+
+    /* Textos dentro de superficies claras */
+    .stApp [data-testid="stMetric"] p,
+    .stApp [data-testid="stMetric"] div,
+    .stApp [data-testid="stExpander"] p,
+    .stApp [data-testid="stExpander"] li,
+    .stApp [data-testid="stFileUploaderDropzone"] p {
+        color: var(--ink) !important;
     }
 
     @media (max-width: 768px) {
