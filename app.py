@@ -66,14 +66,16 @@ st.markdown("""
     #MainMenu, footer { visibility: hidden; }
 
     .block-container {
-        max-width: 1120px;
-        padding-top: 1rem;
-        padding-bottom: 4rem;
+        max-width: 900px;
+        padding-top: .75rem;
+        padding-bottom: 3rem;
     }
 
-    [data-testid="stImage"] img {
-        max-width: 350px;
-        width: 100%;
+    [data-testid="stImage"] img,
+    [data-testid="stImageContainer"] img,
+    .stImage img {
+        max-width: 280px !important;
+        width: 280px !important;
         height: auto;
     }
 
@@ -86,8 +88,8 @@ st.markdown("""
     }
 
     .hems-hero {
-        margin: 1.15rem 0 2rem;
-        padding: 3.1rem 3rem;
+        margin: .75rem 0 1.5rem;
+        padding: 2rem 2.1rem;
         color: var(--ink);
         background: linear-gradient(100deg, #ffffff 0%, #ffffff 64%, #edf3f7 100%);
         border: 1px solid var(--line);
@@ -121,7 +123,7 @@ st.markdown("""
     .hems-hero h1 {
         color: var(--tec-blue) !important;
         font-family: Georgia, "Times New Roman", serif;
-        font-size: clamp(2rem, 4vw, 3.35rem) !important;
+        font-size: clamp(1.85rem, 3.5vw, 2.55rem) !important;
         line-height: 1.05 !important;
         margin: 0 0 .7rem !important;
     }
@@ -136,7 +138,11 @@ st.markdown("""
 
     h1, h2, h3 { letter-spacing: -.015em; }
     h2, h3 { color: var(--tec-blue) !important; }
-    h2 { margin-top: 1.8rem !important; }
+    h2 {
+        margin-top: 1.45rem !important;
+        font-size: 1.7rem !important;
+    }
+    h3 { font-size: 1.3rem !important; }
     p, li, label { line-height: 1.55; }
 
     hr {
@@ -198,7 +204,7 @@ st.markdown("""
         color: var(--tec-blue) !important;
     }
 
-    .stButton > button, [data-testid="stFileUploader"] button {
+    .stButton > button, [data-testid="stFileUploaderDropzone"] button {
         min-height: 44px;
         border-radius: 5px;
         border: 1px solid var(--tec-blue) !important;
@@ -215,6 +221,13 @@ st.markdown("""
         background: var(--tec-blue-2);
         color: white;
         border-color: var(--tec-blue-2) !important;
+    }
+
+    [data-testid="stFileUploaderDropzone"] button {
+        background: var(--tec-blue) !important;
+        color: #ffffff !important;
+        min-height: 40px;
+        padding: .45rem .9rem;
     }
 
     [data-baseweb="input"] > div,
@@ -272,15 +285,17 @@ st.markdown("""
     }
 
     /* Menús de selección en modo claro */
-    [data-testid="stSelectbox"] div[data-baseweb="select"] > div,
-    [data-testid="stSelectbox"] div[data-baseweb="select"] > div > div,
-    [data-testid="stSelectbox"] div[data-baseweb="select"] span {
+    div[data-baseweb="select"],
+    div[data-baseweb="select"] > div,
+    div[data-baseweb="select"] > div > div,
+    div[data-baseweb="select"] span {
         background-color: #ffffff !important;
         color: var(--ink) !important;
     }
 
     [data-testid="stSelectbox"] div[data-baseweb="select"] > div {
         border-color: #b8c5d0 !important;
+        box-shadow: none !important;
     }
 
     [data-testid="stSelectbox"] svg {
@@ -305,6 +320,13 @@ st.markdown("""
         background: white;
         border: 1.5px dashed #8aa7bf;
         border-radius: 8px;
+    }
+
+    [data-testid="stDataFrame"] {
+        background: #ffffff !important;
+        border: 1px solid var(--line);
+        border-radius: 7px;
+        overflow: hidden;
     }
 
     [data-testid="stFileUploaderDropzone"] span,
@@ -360,15 +382,20 @@ st.markdown("""
             padding: .8rem .85rem 3rem;
         }
 
-        [data-testid="stImage"] img { max-width: 270px; }
+        [data-testid="stImage"] img,
+        [data-testid="stImageContainer"] img,
+        .stImage img {
+            width: 220px !important;
+            max-width: 70vw !important;
+        }
 
         .hems-hero {
-            padding: 1.45rem 1.2rem;
+            padding: 1.35rem 1.1rem;
             border-radius: 7px;
             margin-top: .65rem;
         }
 
-        .hems-hero h1 { font-size: 1.72rem !important; }
+        .hems-hero h1 { font-size: 1.68rem !important; }
         .hems-hero p { font-size: .96rem; }
 
         h2 { font-size: 1.45rem !important; }
@@ -392,7 +419,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # Encabezado principal
-st.image("logo.png", caption=None, width="content")
+st.image("logo.png", caption=None, width=280)
 st.markdown("""
 <section class="hems-hero">
     <div class="hems-kicker">Seguridad y salud ocupacional</div>
@@ -609,7 +636,7 @@ st.write("### Tasa metabólica")
 
 st.write("Ahora es necesario indicar el metabolismo. Seleccione una tasa metábolica que se ajuste a la labor.")
 
-st.dataframe(lista_metabolismo)
+st.dataframe(lista_metabolismo, hide_index=True, use_container_width=True)
 tasas=lista_metabolismo.iloc[:,1].tolist()
 carga_metabolica=st.number_input("Ingrese la tasa metabólica (W/m²)", min_value=100, max_value=600, value=160, step=10)
 
@@ -667,7 +694,7 @@ bar = (
             alt.Tooltip("Heat_Index:Q", title="Índice de calor", format=".1f")
         ]
     )
-    .properties(height=400, title="Índice de Calor Actual")
+    .properties(height=300, title="Índice de Calor Actual")
 )
 
 # Texto encima de la barra con el valor
@@ -689,8 +716,25 @@ rule = (
     .encode(y="Reference:Q")
 )
 
-# Mostrar gráfico
-st.altair_chart(bar + text + rule, use_container_width=True)
+# Mostrar gráfico con un tema claro y compacto
+grafico_indice_calor = (
+    bar + text + rule
+).configure(
+    background="#ffffff"
+).configure_view(
+    stroke="#dce3e9"
+).configure_axis(
+    labelColor="#132238",
+    titleColor="#132238",
+    gridColor="#e7ebef",
+    domainColor="#b8c5d0",
+    tickColor="#b8c5d0"
+).configure_title(
+    color="#003865",
+    fontSize=16,
+    anchor="start"
+)
+st.altair_chart(grafico_indice_calor, use_container_width=True, theme=None)
 
 # ---------------------------
 # 4) MÉTRICAS Y EFECTOS (sin cambios - como lo tenías bien)
@@ -753,7 +797,8 @@ x_values = np.linspace(100, 600, 500)
 y_aclimatada = curva_aclimatada(x_values)
 y_no_aclimatada = curva_no_aclimatada(x_values)
 # Crear el gráfico
-fig_1, ax = plt.subplots(figsize=(8, 6))
+fig_1, ax = plt.subplots(figsize=(7, 4.5), facecolor="white")
+ax.set_facecolor("white")
 # Graficar las curvas
 ax.plot(x_values, y_aclimatada, label="Personas Aclimatadas", color="blue", linewidth=2)
 ax.plot(x_values, y_no_aclimatada, label="Personas No Aclimatadas", color="red", linestyle='--', linewidth=2)
@@ -764,6 +809,11 @@ ax.set_xlabel('Carga Metabólica')
 ax.set_ylabel('TGBH Efectivo')
 ax.set_title('Curvas de Aclimatación y No Aclimatación')
 ax.legend()
+ax.tick_params(colors="#132238")
+ax.xaxis.label.set_color("#132238")
+ax.yaxis.label.set_color("#132238")
+ax.title.set_color("#003865")
+ax.grid(True, color="#e7ebef", linewidth=0.8, alpha=0.8)
 # Ajustar límites de los ejes
 ax.set_xlim(100, 600)
 ax.set_ylim(15, 45)
