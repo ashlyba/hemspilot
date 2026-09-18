@@ -27,12 +27,12 @@ st.markdown("""
     :root {
         --tec-blue: #003865;
         --tec-blue-2: #075985;
-        --tec-red: #d6283f;
+        --thermal-orange: #f97316;
         --ink: #132238;
         --muted: #627083;
         --line: #dce3e9;
         --surface: #ffffff;
-        --page: #f8f7f4;
+        --page: #f8fafc;
         --soft-blue: #eaf1f6;
         --soft-red: #fbeaec;
     }
@@ -91,11 +91,11 @@ st.markdown("""
         margin: .75rem 0 1.5rem;
         padding: 2rem 2.1rem;
         color: var(--ink);
-        background: linear-gradient(100deg, #ffffff 0%, #ffffff 64%, #edf3f7 100%);
-        border: 1px solid var(--line);
-        border-left: 7px solid var(--tec-red);
-        border-radius: 8px;
-        box-shadow: 0 14px 34px rgba(0, 56, 101, .09);
+        background: linear-gradient(105deg, #ffffff 0%, #ffffff 68%, #f1f5f9 100%);
+        border: 1px solid #e2e8f0;
+        border-left: 7px solid var(--thermal-orange);
+        border-radius: 12px;
+        box-shadow: 0 10px 28px rgba(15, 23, 42, .08);
         position: relative;
         overflow: hidden;
     }
@@ -116,7 +116,7 @@ st.markdown("""
         font-weight: 800;
         letter-spacing: .12em;
         text-transform: uppercase;
-        color: var(--tec-red);
+        color: var(--thermal-orange);
         margin-bottom: .45rem;
     }
 
@@ -126,6 +126,14 @@ st.markdown("""
         font-size: clamp(1.85rem, 3.5vw, 2.55rem) !important;
         line-height: 1.05 !important;
         margin: 0 0 .7rem !important;
+    }
+
+    .hems-subtitle {
+        color: var(--tec-blue);
+        font-size: clamp(1.08rem, 2vw, 1.35rem);
+        font-weight: 700;
+        line-height: 1.35;
+        margin: -.15rem 0 .8rem;
     }
 
     .hems-hero p {
@@ -152,12 +160,13 @@ st.markdown("""
 
     [data-testid="stVerticalBlockBorderWrapper"] {
         border-color: var(--line) !important;
-        border-radius: 16px !important;
+        border-radius: 12px !important;
         background: var(--surface);
+        box-shadow: 0 6px 18px rgba(15, 23, 42, .05);
     }
 
     [data-testid="stAlert"] {
-        border-radius: 8px;
+        border-radius: 10px;
         border-width: 0 0 0 5px;
         padding: 1rem 1.1rem;
     }
@@ -175,7 +184,7 @@ st.markdown("""
     [data-testid="stExpander"] {
         background: var(--surface);
         border: 1px solid var(--line);
-        border-radius: 8px;
+        border-radius: 10px;
         overflow: hidden;
     }
 
@@ -190,7 +199,7 @@ st.markdown("""
     [data-testid="stMetric"] {
         background: var(--surface);
         border: 1px solid var(--line);
-        border-radius: 8px;
+        border-radius: 12px;
         padding: 1rem 1.1rem;
         box-shadow: 0 8px 20px rgba(29, 52, 73, .055);
         min-height: 112px;
@@ -218,9 +227,9 @@ st.markdown("""
     }
 
     .stButton > button:hover {
-        background: var(--tec-blue-2);
+        background: var(--thermal-orange);
         color: white;
-        border-color: var(--tec-blue-2) !important;
+        border-color: var(--thermal-orange) !important;
     }
 
     [data-testid="stFileUploaderDropzone"] button {
@@ -341,9 +350,9 @@ st.markdown("""
         gap: .55rem;
         margin: 1.3rem 0 .3rem;
         padding: .42rem .7rem;
-        color: var(--tec-red);
+        color: var(--thermal-orange);
         background: transparent;
-        border-left: 3px solid var(--tec-red);
+        border-left: 3px solid var(--thermal-orange);
         font-size: .82rem;
         font-weight: 800;
         letter-spacing: .03em;
@@ -352,8 +361,8 @@ st.markdown("""
     .hems-note {
         padding: 1rem 1.1rem;
         border: 1px solid #d7e3ec;
-        border-left: 4px solid var(--tec-blue);
-        border-radius: 7px;
+        border-left: 4px solid var(--thermal-orange);
+        border-radius: 10px;
         background: white;
         color: var(--muted);
     }
@@ -423,7 +432,8 @@ st.image("logo.png", caption=None, width=280)
 st.markdown("""
 <section class="hems-hero">
     <div class="hems-kicker">Seguridad y salud ocupacional</div>
-    <h1>Evaluación de estrés térmico</h1>
+    <h1>Sistema HEMS</h1>
+    <div class="hems-subtitle">Evaluación de estrés térmico</div>
     <p>Sistema HEMS para analizar las condiciones térmicas del ambiente laboral y orientar medidas de prevención para proteger la salud de las personas trabajadoras.</p>
 </section>
 """, unsafe_allow_html=True)
