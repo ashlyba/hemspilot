@@ -74,9 +74,11 @@ st.markdown("""
     [data-testid="stImage"] img,
     [data-testid="stImageContainer"] img,
     .stImage img {
-        max-width: 280px !important;
-        width: 280px !important;
+        max-width: 220px !important;
+        width: 220px !important;
         height: auto;
+        object-fit: contain;
+        image-rendering: auto;
     }
 
     [data-testid="stImage"] {
@@ -386,6 +388,27 @@ st.markdown("""
         color: var(--ink) !important;
     }
 
+    /* Refuerzo de tema claro para selectores cuando el navegador usa modo oscuro */
+    body .stApp div[data-testid="stSelectbox"] div[data-baseweb="select"],
+    body .stApp div[data-testid="stSelectbox"] div[data-baseweb="select"] > div,
+    body .stApp div[data-testid="stSelectbox"] div[data-baseweb="select"] > div > div {
+        background: #ffffff !important;
+        background-color: #ffffff !important;
+        color: var(--ink) !important;
+        -webkit-text-fill-color: var(--ink) !important;
+    }
+
+    body .stApp div[data-testid="stSelectbox"] div[data-baseweb="select"] > div {
+        border: 1px solid #b8c5d0 !important;
+        border-radius: 8px !important;
+    }
+
+    body .stApp div[data-testid="stSelectbox"] div[data-baseweb="select"] span,
+    body .stApp div[data-testid="stSelectbox"] div[data-baseweb="select"] input {
+        color: var(--ink) !important;
+        -webkit-text-fill-color: var(--ink) !important;
+    }
+
     @media (max-width: 768px) {
         .block-container {
             padding: .8rem .85rem 3rem;
@@ -394,8 +417,8 @@ st.markdown("""
         [data-testid="stImage"] img,
         [data-testid="stImageContainer"] img,
         .stImage img {
-            width: 220px !important;
-            max-width: 70vw !important;
+            width: 190px !important;
+            max-width: 65vw !important;
         }
 
         .hems-hero {
@@ -428,7 +451,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # Encabezado principal
-st.image("logo.png", caption=None, width=280)
+st.image("logo.png", caption=None, width=220)
 st.markdown("""
 <section class="hems-hero">
     <div class="hems-kicker">Seguridad y salud ocupacional</div>
@@ -646,7 +669,26 @@ st.write("### Tasa metabólica")
 
 st.write("Ahora es necesario indicar el metabolismo. Seleccione una tasa metábolica que se ajuste a la labor.")
 
-st.dataframe(lista_metabolismo, hide_index=True, use_container_width=True)
+tabla_metabolismo_estilo = (
+    lista_metabolismo.style
+    .set_properties(**{
+        "background-color": "#ffffff",
+        "color": "#132238",
+        "border-color": "#e2e8f0"
+    })
+    .set_table_styles([
+        {
+            "selector": "th",
+            "props": [
+                ("background-color", "#eaf1f6"),
+                ("color", "#003865"),
+                ("font-weight", "700"),
+                ("border-color", "#e2e8f0")
+            ]
+        }
+    ])
+)
+st.dataframe(tabla_metabolismo_estilo, hide_index=True, use_container_width=True)
 tasas=lista_metabolismo.iloc[:,1].tolist()
 carga_metabolica=st.number_input("Ingrese la tasa metabólica (W/m²)", min_value=100, max_value=600, value=160, step=10)
 
@@ -807,13 +849,13 @@ x_values = np.linspace(100, 600, 500)
 y_aclimatada = curva_aclimatada(x_values)
 y_no_aclimatada = curva_no_aclimatada(x_values)
 # Crear el gráfico
-fig_1, ax = plt.subplots(figsize=(7, 4.5), facecolor="white")
+fig_1, ax = plt.subplots(figsize=(9, 5.8), dpi=120, facecolor="white")
 ax.set_facecolor("white")
 # Graficar las curvas
-ax.plot(x_values, y_aclimatada, label="Personas Aclimatadas", color="blue", linewidth=2)
-ax.plot(x_values, y_no_aclimatada, label="Personas No Aclimatadas", color="red", linestyle='--', linewidth=2)
+ax.plot(x_values, y_aclimatada, label="Personas Aclimatadas", color="#075985", linewidth=2.5)
+ax.plot(x_values, y_no_aclimatada, label="Personas No Aclimatadas", color="#f97316", linestyle='--', linewidth=2.5)
 # Graficar el punto
-ax.scatter(carga_metabolica, tgbh_efectivo, color="green", zorder=5, label=f'Punto ({carga_metabolica},{round(tgbh_efectivo),2})')
+ax.scatter(carga_metabolica, tgbh_efectivo, color="#16a34a", s=70, zorder=5, label=f'Punto ({carga_metabolica},{round(tgbh_efectivo),2})')
 # Etiquetas y título
 ax.set_xlabel('Carga Metabólica')
 ax.set_ylabel('TGBH Efectivo')
@@ -829,7 +871,7 @@ ax.set_xlim(100, 600)
 ax.set_ylim(15, 45)
 
 # Mostrar gráfico
-st.pyplot(fig_1)
+st.pyplot(fig_1, use_container_width=True)
 
 #Compuerta lógica para mostrar métodos de evaluación
 #Si se encuentra en estrés térmico, mostrará el método de evaluación SWreq e ISC, de lo contrario, mostrará Fanger. Fanger aun no se ha agregado.
@@ -1077,7 +1119,6 @@ if estado== "Discomfort":
     else: 
         st.write("No se cuenta con una metodologia para evaluar discomfort en exteriores")
         
-
 
 
 
