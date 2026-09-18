@@ -334,10 +334,11 @@ st.markdown("""
         background: #ffffff !important;
         border: 1px solid var(--line);
         border-radius: 7px;
-        overflow: hidden;
+        overflow-x: auto !important;
+        overflow-y: hidden;
     }
 
-    /* AJUSTE VISUAL: encabezados de tablas con texto blanco */
+    /* Contraste de los encabezados de las tablas */
     [data-testid="stDataFrame"] th,
     [data-testid="stDataFrame"] thead,
     [data-testid="stDataFrame"] thead * {
@@ -416,7 +417,7 @@ st.markdown("""
         -webkit-text-fill-color: var(--ink) !important;
     }
 
-    /* AJUSTE VISUAL: fondo claro para todos los selectores de entrada */
+    /* Apariencia clara de los selectores de entrada */
     body .stApp [data-testid="stSelectbox"] [data-baseweb="select"],
     body .stApp [data-testid="stSelectbox"] [data-baseweb="select"] > div,
     body .stApp [data-testid="stSelectbox"] [role="combobox"] {
@@ -442,7 +443,7 @@ st.markdown("""
         -webkit-text-fill-color: #17243a !important;
     }
 
-    /* AJUSTE VISUAL: bloque lateral y flecha de los selectores */
+    /* Bloque lateral y flecha de los selectores */
     body .stApp [data-testid="stSelectbox"] [data-baseweb="select"] > div > div:last-child,
     body .stApp [data-testid="stSelectbox"] [role="combobox"] > div:last-child {
         background: #eaf1f6 !important;
@@ -734,7 +735,18 @@ tabla_metabolismo_estilo = (
         }
     ])
 )
-st.dataframe(tabla_metabolismo_estilo, hide_index=True, use_container_width=True)
+st.dataframe(
+    tabla_metabolismo_estilo,
+    hide_index=True,
+    use_container_width=True,
+    height=245,
+    column_config={
+        "Clase": st.column_config.TextColumn(width="medium"),
+        "Tasa metabólica": st.column_config.NumberColumn(format="%d", width="small"),
+        "Rango": st.column_config.TextColumn(width="small"),
+        "Ejemplos": st.column_config.TextColumn(width="large")
+    }
+)
 tasas=lista_metabolismo.iloc[:,1].tolist()
 carga_metabolica=st.number_input("Ingrese la tasa metabólica (W/m²)", min_value=100, max_value=600, value=160, step=10)
 
@@ -752,7 +764,7 @@ heat_index,nivel,efecto,medidas_de_salud,nivel_para_medidas=indice_de_calor(temp
 
 #Graficar el indice de calor 
 
-#Inicio de prueba de gráfico heat index
+#Inicio de gráfico heat index
 
 # ---------------------------
 # 2) PREPARAR DATOS PARA UNA SOLA BARRA
@@ -807,7 +819,7 @@ text = bar.mark_text(
     text=alt.Text("Heat_Index:Q", format=".1f")
 )
 
-# Línea de referencia opcional para contexto (puedes quitarla si no la necesitas)
+# Línea de referencia
 rule = (
     alt.Chart(pd.DataFrame({"Reference": [heat_index]}))
     .mark_rule(color="gray", strokeDash=[5, 5])
@@ -834,9 +846,7 @@ grafico_indice_calor = (
 )
 st.altair_chart(grafico_indice_calor, use_container_width=True, theme=None)
 
-# ---------------------------
-# 4) MÉTRICAS Y EFECTOS (sin cambios - como lo tenías bien)
-# ---------------------------
+# 4) MÉTRICAS Y EFECTOS
 col1, col2, col3 = st.columns(3)
 with col1:
     st.metric("Índice de Calor", f"{heat_index:.1f}")
@@ -860,7 +870,7 @@ with st.expander(f"Ver medidas de prevención para {nivel_para_medidas}", expand
         st.write(f"• {medida}")
 
 
-# Información adicional (opcional - manteniendo tu estructura original)
+# Información adicional
 with st.expander("Información sobre los niveles"):
     st.write("""
     **Nivel I (Verde)**: 80 - 90 - Precaución  
@@ -871,7 +881,7 @@ with st.expander("Información sobre los niveles"):
     
 
 
-#Final de prueba de gráfico heat index
+#Final de gráfico heat index
 
 #TGBH
 #Llamar función tgbh
@@ -1143,7 +1153,7 @@ if estado == "Estrés Térmico":
                     **Acción inmediata:** Suspender actividades y evacuar el área.
                     """)
 
-            # LEYENDA DE NIVELES (opcional)
+            # LEYENDA DE NIVELES
             with st.expander("Ver escala de niveles ISC"):
                 st.write("""
                 **Escala del Índice de Sobrecarga Calórica:**
