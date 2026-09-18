@@ -322,6 +322,16 @@ st.markdown("""
         overflow: hidden;
     }
 
+    /* AJUSTE VISUAL: encabezados de tablas con texto blanco */
+    [data-testid="stDataFrame"] th,
+    [data-testid="stDataFrame"] thead,
+    [data-testid="stDataFrame"] thead * {
+        background-color: #003865 !important;
+        color: #ffffff !important;
+        -webkit-text-fill-color: #ffffff !important;
+        font-weight: 700 !important;
+    }
+
     [data-testid="stFileUploaderDropzone"] span,
     [data-testid="stFileUploaderDropzone"] small,
     [data-testid="stFileUploaderDropzone"] div {
@@ -701,8 +711,8 @@ tabla_metabolismo_estilo = (
         {
             "selector": "th",
             "props": [
-                ("background-color", "#eaf1f6"),
-                ("color", "#003865"),
+                ("background-color", "#003865"),
+                ("color", "#ffffff"),
                 ("font-weight", "700"),
                 ("border-color", "#e2e8f0")
             ]
@@ -1140,3 +1150,4 @@ if estado== "Discomfort":
     else: 
         st.write("No se cuenta con una metodologia para evaluar discomfort en exteriores")
         
+
