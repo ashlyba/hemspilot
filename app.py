@@ -205,22 +205,37 @@ st.markdown("""
     }
 
     .stButton > button {
-        background: var(--tec-blue);
-        color: white;
+        background: #ffffff !important;
+        color: var(--tec-blue) !important;
         width: 100%;
+        box-shadow: 0 2px 6px rgba(0, 56, 101, 0.08);
     }
 
     .stButton > button:hover {
-        background: var(--thermal-orange);
-        color: white;
+        background: #fff7ed !important;
+        color: var(--thermal-orange) !important;
         border-color: var(--thermal-orange) !important;
     }
 
+    .stButton > button:focus,
+    .stButton > button:active {
+        background: #fff7ed !important;
+        color: var(--thermal-orange) !important;
+        border-color: var(--thermal-orange) !important;
+        box-shadow: 0 0 0 2px rgba(249, 115, 22, 0.18) !important;
+    }
+
     [data-testid="stFileUploaderDropzone"] button {
-        background: var(--tec-blue) !important;
-        color: #ffffff !important;
+        background: var(--soft-blue) !important;
+        color: var(--tec-blue) !important;
         min-height: 40px;
         padding: .45rem .9rem;
+    }
+
+    [data-testid="stFileUploaderDropzone"] button:hover {
+        background: #fff7ed !important;
+        color: var(--thermal-orange) !important;
+        border-color: var(--thermal-orange) !important;
     }
 
     [data-baseweb="input"] > div,
@@ -1150,4 +1165,3 @@ if estado== "Discomfort":
     else: 
         st.write("No se cuenta con una metodologia para evaluar discomfort en exteriores")
         
-
