@@ -443,26 +443,6 @@ st.markdown("""
         -webkit-text-fill-color: #17243a !important;
     }
 
-    /* Bloque lateral y flecha de los selectores */
-    body .stApp [data-testid="stSelectbox"] [data-baseweb="select"] > div > div:last-child,
-    body .stApp [data-testid="stSelectbox"] [role="combobox"] > div:last-child {
-        background: #eaf1f6 !important;
-        background-color: #eaf1f6 !important;
-        border-left: 1px solid #cbd8e2 !important;
-        border-radius: 0 7px 7px 0 !important;
-        align-self: stretch !important;
-        min-width: 44px !important;
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-    }
-
-    body .stApp [data-testid="stSelectbox"] [data-baseweb="select"] > div > div:last-child svg,
-    body .stApp [data-testid="stSelectbox"] [role="combobox"] > div:last-child svg {
-        fill: var(--tec-blue) !important;
-        color: var(--tec-blue) !important;
-    }
-
     @media (max-width: 768px) {
         .block-container {
             padding: .8rem .85rem 3rem;
@@ -517,6 +497,35 @@ st.markdown("""
     body .stApp div[data-testid="stSelectbox"] svg {
         color: #003865 !important;
         fill: #003865 !important;
+    }
+
+    /* Fondo de los botones laterales de selección */
+    html body .stApp div[data-testid="stSelectbox"] [data-baseweb="select"] *,
+    html body .stApp div[data-testid="stSelectbox"] [role="combobox"] *,
+    html body .stApp div[data-testid="stSelectbox"] button,
+    html body .stApp div[data-testid="stSelectbox"] [role="button"] {
+        background: #ffffff !important;
+        background-color: #ffffff !important;
+        background-image: none !important;
+        color: #17243a !important;
+        -webkit-text-fill-color: #17243a !important;
+    }
+
+    html body .stApp div[data-testid="stSelectbox"] [data-baseweb="select"] *::before,
+    html body .stApp div[data-testid="stSelectbox"] [data-baseweb="select"] *::after,
+    html body .stApp div[data-testid="stSelectbox"] [role="combobox"] *::before,
+    html body .stApp div[data-testid="stSelectbox"] [role="combobox"] *::after {
+        background: #ffffff !important;
+        background-color: #ffffff !important;
+        background-image: none !important;
+    }
+
+    html body .stApp div[data-testid="stSelectbox"] svg,
+    html body .stApp div[data-testid="stSelectbox"] svg * {
+        background: transparent !important;
+        color: #003865 !important;
+        fill: #003865 !important;
+        -webkit-text-fill-color: #003865 !important;
     }
 
     body .stApp div[data-baseweb="popover"] [role="listbox"],
@@ -1252,4 +1261,3 @@ if estado== "Discomfort":
     else: 
         st.write("No se cuenta con una metodologia para evaluar discomfort en exteriores")
         
-
