@@ -610,8 +610,12 @@ st.markdown("""
         padding-right: 42px !important;
     }
 
-    html body .stApp div[data-testid="stSelectbox"] [data-baseweb="select"] svg {
+    html body .stApp div[data-testid="stSelectbox"] svg,
+    html body .stApp div[data-testid="stSelectbox"] svg * {
         display: none !important;
+        visibility: hidden !important;
+        width: 0 !important;
+        height: 0 !important;
     }
 </style>
 """, unsafe_allow_html=True)
