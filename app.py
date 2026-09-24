@@ -506,9 +506,10 @@ st.markdown("""
         box-shadow: none !important;
     }
 
-    body .stApp div[data-testid="stSelectbox"] div[data-baseweb="select"] > div > div {
-        background: transparent !important;
-        background-color: transparent !important;
+    body .stApp div[data-testid="stSelectbox"] div[data-baseweb="select"] div,
+    body .stApp div[data-testid="stSelectbox"] [role="combobox"] div {
+        background: #ffffff !important;
+        background-color: #ffffff !important;
         color: #17243a !important;
         -webkit-text-fill-color: #17243a !important;
     }
@@ -544,14 +545,16 @@ st.markdown("""
 
     .tabla-metabolismo {
         width: 100%;
-        min-width: 720px;
+        min-width: 650px;
         border-collapse: collapse;
+        table-layout: fixed;
         color: #17243a;
         background: #ffffff;
+        font-size: .88rem;
     }
 
     .tabla-metabolismo th {
-        padding: .75rem .8rem;
+        padding: .55rem .6rem;
         color: #ffffff !important;
         background: #003865 !important;
         text-align: left;
@@ -560,19 +563,31 @@ st.markdown("""
     }
 
     .tabla-metabolismo td {
-        padding: .7rem .8rem;
+        padding: .5rem .6rem;
         color: #17243a !important;
         background: #ffffff !important;
         border-top: 1px solid #e2e8f0;
         vertical-align: top;
+        line-height: 1.35;
+        overflow-wrap: anywhere;
     }
 
     .tabla-metabolismo tbody tr:nth-child(even) td {
         background: #f8fafc !important;
     }
 
-    .tabla-metabolismo td:last-child {
-        min-width: 320px;
+    .tabla-metabolismo th:nth-child(1),
+    .tabla-metabolismo td:nth-child(1) { width: 22%; }
+
+    .tabla-metabolismo th:nth-child(2),
+    .tabla-metabolismo td:nth-child(2) { width: 16%; }
+
+    .tabla-metabolismo th:nth-child(3),
+    .tabla-metabolismo td:nth-child(3) { width: 15%; }
+
+    .tabla-metabolismo th:nth-child(4),
+    .tabla-metabolismo td:nth-child(4) {
+        width: 47%;
         white-space: normal;
     }
 </style>
@@ -1237,3 +1252,4 @@ if estado== "Discomfort":
     else: 
         st.write("No se cuenta con una metodologia para evaluar discomfort en exteriores")
         
+
