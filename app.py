@@ -599,6 +599,20 @@ st.markdown("""
         width: 47%;
         white-space: normal;
     }
+
+    /* Flecha de los selectores */
+    html body .stApp div[data-testid="stSelectbox"] [role="combobox"] {
+        background-color: #ffffff !important;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4 6l4 4 4-4' fill='none' stroke='%23003865' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") !important;
+        background-repeat: no-repeat !important;
+        background-position: right 14px center !important;
+        background-size: 16px 16px !important;
+        padding-right: 42px !important;
+    }
+
+    html body .stApp div[data-testid="stSelectbox"] [data-baseweb="select"] svg {
+        display: none !important;
+    }
 </style>
 """, unsafe_allow_html=True)
 
