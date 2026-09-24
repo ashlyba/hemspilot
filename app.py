@@ -494,6 +494,87 @@ st.markdown("""
         [data-testid="stMetric"] { min-height: auto; }
         [data-testid="stDataFrame"] { overflow-x: auto; }
     }
+
+    /* Selectores de características de la tarea */
+    body .stApp div[data-testid="stSelectbox"] div[data-baseweb="select"] > div,
+    body .stApp div[data-testid="stSelectbox"] [role="combobox"] {
+        background: #ffffff !important;
+        background-color: #ffffff !important;
+        color: #17243a !important;
+        -webkit-text-fill-color: #17243a !important;
+        border-color: #b8c5d0 !important;
+        box-shadow: none !important;
+    }
+
+    body .stApp div[data-testid="stSelectbox"] div[data-baseweb="select"] > div > div {
+        background: transparent !important;
+        background-color: transparent !important;
+        color: #17243a !important;
+        -webkit-text-fill-color: #17243a !important;
+    }
+
+    body .stApp div[data-testid="stSelectbox"] svg {
+        color: #003865 !important;
+        fill: #003865 !important;
+    }
+
+    body .stApp div[data-baseweb="popover"] [role="listbox"],
+    body .stApp div[data-baseweb="popover"] [role="option"] {
+        background: #ffffff !important;
+        color: #17243a !important;
+        -webkit-text-fill-color: #17243a !important;
+    }
+
+    body .stApp div[data-baseweb="popover"] [role="option"]:hover,
+    body .stApp div[data-baseweb="popover"] [role="option"][aria-selected="true"] {
+        background: #eaf1f6 !important;
+        color: #003865 !important;
+        -webkit-text-fill-color: #003865 !important;
+    }
+
+    /* Tabla de tasa metabólica */
+    .tabla-metabolismo-contenedor {
+        width: 100%;
+        overflow-x: auto;
+        margin: .4rem 0 1.2rem;
+        border: 1px solid #dce3e9;
+        border-radius: 10px;
+        background: #ffffff;
+    }
+
+    .tabla-metabolismo {
+        width: 100%;
+        min-width: 720px;
+        border-collapse: collapse;
+        color: #17243a;
+        background: #ffffff;
+    }
+
+    .tabla-metabolismo th {
+        padding: .75rem .8rem;
+        color: #ffffff !important;
+        background: #003865 !important;
+        text-align: left;
+        font-weight: 700;
+        white-space: nowrap;
+    }
+
+    .tabla-metabolismo td {
+        padding: .7rem .8rem;
+        color: #17243a !important;
+        background: #ffffff !important;
+        border-top: 1px solid #e2e8f0;
+        vertical-align: top;
+    }
+
+    .tabla-metabolismo tbody tr:nth-child(even) td {
+        background: #f8fafc !important;
+    }
+
+    .tabla-metabolismo td:last-child {
+        min-width: 320px;
+        white-space: normal;
+    }
 </style>
 """, unsafe_allow_html=True)
 
@@ -716,36 +797,17 @@ st.write("### Tasa metabólica")
 
 st.write("Ahora es necesario indicar el metabolismo. Seleccione una tasa metábolica que se ajuste a la labor.")
 
-tabla_metabolismo_estilo = (
-    lista_metabolismo.style
-    .set_properties(**{
-        "background-color": "#ffffff",
-        "color": "#132238",
-        "border-color": "#e2e8f0"
-    })
-    .set_table_styles([
-        {
-            "selector": "th",
-            "props": [
-                ("background-color", "#003865"),
-                ("color", "#ffffff"),
-                ("font-weight", "700"),
-                ("border-color", "#e2e8f0")
-            ]
-        }
-    ])
+# Tabla de tasa metabólica
+tabla_metabolismo_html = lista_metabolismo.to_html(
+    index=False,
+    border=0,
+    classes="tabla-metabolismo",
+    escape=True,
+    formatters={"Tasa metabólica": lambda valor: f"{valor:g}"}
 )
-st.dataframe(
-    tabla_metabolismo_estilo,
-    hide_index=True,
-    use_container_width=True,
-    height=245,
-    column_config={
-        "Clase": st.column_config.TextColumn(width="medium"),
-        "Tasa metabólica": st.column_config.NumberColumn(format="%d", width="small"),
-        "Rango": st.column_config.TextColumn(width="small"),
-        "Ejemplos": st.column_config.TextColumn(width="large")
-    }
+st.markdown(
+    f'<div class="tabla-metabolismo-contenedor">{tabla_metabolismo_html}</div>',
+    unsafe_allow_html=True
 )
 tasas=lista_metabolismo.iloc[:,1].tolist()
 carga_metabolica=st.number_input("Ingrese la tasa metabólica (W/m²)", min_value=100, max_value=600, value=160, step=10)
