@@ -638,7 +638,41 @@ st.markdown("""
         width: 0 !important;
         height: 0 !important;
     }
-</style>
+    /* Encabezado principal */
+    .stApp .hems-hero {
+        background: linear-gradient(135deg, #ffffff 20%, #eaf3fb 100%);
+        border: 1px solid #d5e3ef;
+        border-radius: 16px;
+        box-shadow: 0 4px 16px rgba(0, 56, 101, 0.06);
+    }
+
+    /* Tarjetas de resultados */
+    .stApp [data-testid="stMetric"] {
+        background: #ffffff;
+        border: 1px solid #d5e3ef;
+        border-left: 4px solid var(--tec-blue);
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0, 56, 101, 0.05);
+    }
+
+    .stApp [data-testid="stMetric"] [data-testid="stMetricLabel"] p {
+        color: var(--muted) !important;
+        font-size: 0.9rem;
+        font-weight: 500;
+    }
+
+    .stApp [data-testid="stMetric"] [data-testid="stMetricValue"] {
+        font-weight: 700;
+        font-variant-numeric: tabular-nums;
+    }
+
+    /* Separación entre secciones */
+    .stApp .block-container hr {
+        border: 0;
+        border-top: 1px solid #d5e3ef;
+        margin: 1.75rem 0;
+    }
+    </style>
 """, unsafe_allow_html=True)
 
 # Encabezado principal
