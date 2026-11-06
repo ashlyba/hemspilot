@@ -149,10 +149,31 @@ st.markdown("""
         box-shadow: 0 6px 18px rgba(15, 23, 42, .05);
     }
 
-    [data-testid="stAlert"] {
+       [data-testid="stAlert"] {
         border-radius: 10px;
         border-width: 0 0 0 5px;
         padding: 1rem 1.1rem;
+    }
+
+    .stApp [data-testid="stAlert"] > div,
+    .stApp [data-testid="stAlert"] [data-testid="stAlertContainer"] {
+        background-color: #eaf2fb !important;
+        border-left: 4px solid #3474a9;
+    }
+
+    .stApp [data-testid="stAlert"] [kind="warning"] {
+        background-color: #fff3d6 !important;
+        border-left-color: #a36b00;
+    }
+
+    .stApp [data-testid="stAlert"] [kind="error"] {
+        background-color: #fdebec !important;
+        border-left-color: #ad3038;
+    }
+
+    .stApp [data-testid="stAlert"] [kind="success"] {
+        background-color: #e9f6ed !important;
+        border-left-color: #287744;
     }
 
     .stApp [data-testid="stAlert"] p,
