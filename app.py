@@ -672,6 +672,48 @@ st.markdown("""
         border-top: 1px solid #d5e3ef;
         margin: 1.75rem 0;
     }
+        /* Etiquetas del formulario */
+    .stApp [data-testid="stWidgetLabel"] p {
+        font-weight: 600;
+        line-height: 1.4;
+    }
+
+    /* Resaltar el campo activo al hacer clic o navegar con Tab */
+    .stApp [data-testid="stNumberInput"] input:focus-visible,
+    .stApp [data-testid="stTextInput"] input:focus-visible,
+    .stApp [data-testid="stSelectbox"] [role="combobox"]:focus-visible {
+        outline: 2px solid var(--tec-blue-2);
+        outline-offset: -2px;
+    }
+
+    /* Botones con el mismo acabado que las tarjetas */
+    .stApp .stButton > button {
+        min-height: 2.75rem;
+        border-radius: 10px;
+        padding-inline: 1.1rem;
+        font-weight: 600;
+        box-shadow: 0 2px 6px rgba(0, 56, 101, 0.08);
+    }
+
+    .stApp .stButton > button:focus-visible {
+        outline: 2px solid var(--tec-blue-2);
+        outline-offset: 3px;
+    }
+
+    /* Ajustar los valores y las etiquetas en pantallas pequeñas */
+    @media (max-width: 640px) {
+        .stApp [data-testid="stMetric"] {
+            padding: 0.8rem;
+        }
+
+        .stApp [data-testid="stMetricLabel"] p {
+            white-space: normal;
+        }
+
+        .stApp [data-testid="stMetricValue"] {
+            font-size: clamp(1.3rem, 5vw, 1.8rem);
+        }
+    }
     </style>
 """, unsafe_allow_html=True)
 
